@@ -3,6 +3,7 @@ import 'package:bmicalculator/constants/pallete.dart';
 import 'package:bmicalculator/constants/text_styling.dart';
 import 'package:bmicalculator/utilities/widgets/gender_widget.dart';
 import 'package:bmicalculator/utilities/widgets/horizontal_ruler_widget.dart';
+import 'package:bmicalculator/utilities/widgets/vertical_ruler_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 
@@ -21,14 +22,17 @@ class _HomeViewState extends State<HomeView> {
 
   RulerPickerController? _weightRulerPickerController;
   RulerPickerController? _ageRulerPickerController;
+  RulerPickerController? _heightRulerPickerController;
 
   int weightValue = 150;
   int ageValue = 40;
+  int heightValue = 150;
   @override
   void initState() {
     super.initState();
     _weightRulerPickerController = RulerPickerController(value: 0);
     _ageRulerPickerController = RulerPickerController(value: 0);
+    _heightRulerPickerController = RulerPickerController(value: 0);
   }
 
   @override
@@ -36,6 +40,7 @@ class _HomeViewState extends State<HomeView> {
     super.dispose();
     _weightRulerPickerController?.dispose();
     _ageRulerPickerController?.dispose();
+    _heightRulerPickerController?.dispose();
   }
 
   @override
@@ -192,10 +197,22 @@ class _HomeViewState extends State<HomeView> {
                     const SizedBox(
                       width: 20,
                     ),
-                    Container(
-                      color: Pallete.whiteColor,
-                      height: ((screenSize.height - 80) * 0.4) + 20,
-                      width: ((screenSize.width - 60) / 2) - 10,
+
+                    // HEIGHT RULER
+                    VerticalRulerWidget(
+                      screenSize: screenSize,
+                      rulerValue: heightValue,
+                      rulerPickerController: _heightRulerPickerController,
+                      changeValue: (int value) {
+                        setState(() {
+                          heightValue = value;
+                        });
+                      },
+                      title: "Height  ",
+                      subtitle: "(cm)",
+                      onSubmittedValue: (int value) {
+                        _heightRulerPickerController!.value = value;
+                      },
                     ),
                   ],
                 ),
@@ -204,14 +221,26 @@ class _HomeViewState extends State<HomeView> {
                 height: 30,
               ),
 
-              // HEIGHT RULER
-              Container(
-                width: double.infinity,
-                height: 50,
-                color: Pallete.purpleColor,
-                child: TextButton(
-                  child: const Text("Calculate"),
-                  onPressed: () {},
+              // CALCULATE BUTTON
+              TextButton(
+                onPressed: () {
+                  // Add your onPressed code here.
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Pallete.darkColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  elevation: MaterialStateProperty.all(10),
+                  minimumSize: MaterialStateProperty.all(
+                      const Size(double.infinity, 50)),
+                ),
+                child: Text(
+                  "Calculate",
+                  style:
+                      TStyle.accentButton.copyWith(color: Pallete.whiteColor),
                 ),
               )
             ],
@@ -232,4 +261,3 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 }
-
