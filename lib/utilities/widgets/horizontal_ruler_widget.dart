@@ -1,4 +1,3 @@
-
 import 'package:bmicalculator/constants/pallete.dart';
 import 'package:bmicalculator/constants/text_styling.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,7 +30,8 @@ class HorizontalRulerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController textEditingController = TextEditingController();
     textEditingController.text = rulerValue.toString();
-    textEditingController.selection =TextSelection.collapsed(offset: textEditingController.text.length);
+    textEditingController.selection =
+        TextSelection.collapsed(offset: textEditingController.text.length);
     return Container(
       decoration: BoxDecoration(
         color: Pallete.whiteColor,
@@ -75,7 +75,6 @@ class HorizontalRulerWidget extends StatelessWidget {
                   child: IntrinsicWidth(
                     child: CupertinoTextField(
                       controller: textEditingController,
-                      
                       keyboardType: const TextInputType.numberWithOptions(
                           signed: true, decimal: true),
                       onSubmitted: (value) {
@@ -100,7 +99,7 @@ class HorizontalRulerWidget extends StatelessWidget {
             height: 3,
           ),
           RulerPicker(
-            rulerBackgroundColor: Pallete.whiteColor,
+            rulerBackgroundColor: Colors.transparent,
             controller: rulerPickerController!,
             beginValue: 0,
             endValue: 300,
