@@ -1,6 +1,7 @@
 import 'package:bmicalculator/constants/dimensions.dart';
 import 'package:bmicalculator/constants/pallete.dart';
 import 'package:bmicalculator/constants/text_styling.dart';
+import 'package:bmicalculator/router/routes.dart';
 import 'package:bmicalculator/utilities/widgets/gender_widget.dart';
 import 'package:bmicalculator/utilities/widgets/horizontal_ruler_widget.dart';
 import 'package:bmicalculator/utilities/widgets/vertical_ruler_widget.dart';
@@ -47,7 +48,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Pallete.lightColor,
+      backgroundColor: Pallete.whiteColor,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
@@ -224,7 +225,7 @@ class _HomeViewState extends State<HomeView> {
               // CALCULATE BUTTON
               TextButton(
                 onPressed: () {
-                  // Add your onPressed code here.
+                  Navigator.of(context).pushNamed(resultRoute);
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Pallete.darkColor),
