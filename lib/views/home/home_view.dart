@@ -2,7 +2,9 @@ import 'package:bmicalculator/constants/dimensions.dart';
 import 'package:bmicalculator/constants/pallete.dart';
 import 'package:bmicalculator/constants/text_styling.dart';
 import 'package:bmicalculator/utilities/widgets/gender_widget.dart';
+import 'package:bmicalculator/utilities/widgets/horizontal_ruler_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -16,6 +18,25 @@ class _HomeViewState extends State<HomeView> {
   Color femaleColor = Pallete.greyColor;
   Color containerMaleColor = Pallete.whiteColor;
   Color containerFemaleColor = Pallete.whiteColor;
+
+  RulerPickerController? _weightRulerPickerController;
+  RulerPickerController? _ageRulerPickerController;
+
+  int weightValue = 150;
+  int ageValue = 40;
+  @override
+  void initState() {
+    super.initState();
+    _weightRulerPickerController = RulerPickerController(value: 0);
+    _ageRulerPickerController = RulerPickerController(value: 0);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _weightRulerPickerController?.dispose();
+    _ageRulerPickerController?.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +58,8 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     Text(
                       "BMI Calculator",
-                      style: TStyle.heading1,
+                      style:
+                          TStyle.heading1.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 5,
@@ -129,18 +151,40 @@ class _HomeViewState extends State<HomeView> {
                       width: ((screenSize.width - 60) / 2) - 10,
                       child: Column(
                         children: [
-                          Container(
-                            color: Pallete.whiteColor,
-                            height: (screenSize.height - 80) * 0.2,
-                            width: double.infinity,
+                          HorizontalRulerWidget(
+                            screenSize: screenSize,
+                            rulerValue: weightValue,
+                            rulerPickerController: _weightRulerPickerController,
+                            changeValue: (int value) {
+                              setState(() {
+                                weightValue = value;
+                              });
+                            },
+                            title: "Weight  ",
+                            subtitle: "(lbs)",
+                            onSubmittedValue: (int value) {
+                              _weightRulerPickerController!.value = value;
+                            },
                           ),
                           const SizedBox(
                             height: 20,
                           ),
-                          Container(
-                            color: Pallete.whiteColor,
-                            height: (screenSize.height - 80) * 0.2,
-                            width: double.infinity,
+                          HorizontalRulerWidget(
+                            screenSize: screenSize,
+                            rulerValue: ageValue,
+                            rulerPickerController: _ageRulerPickerController,
+                            changeValue: (int value) {
+                              setState(() {
+                                ageValue = value;
+                              });
+                            },
+                            title: "Age",
+                            subtitle: "",
+                            onSubmittedValue: (int value) {
+                              setState(() {
+                                _ageRulerPickerController!.value = value;
+                              });
+                            },
                           ),
                         ],
                       ),
@@ -188,3 +232,4 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 }
+

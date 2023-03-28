@@ -30,12 +30,6 @@ class _GenderWidgetState extends State<GenderWidget> {
       decoration: BoxDecoration(
         color: widget.containerColor,
         borderRadius: BorderRadius.circular(15),
-        border: const Border(
-          top: BorderSide.none,
-          bottom: BorderSide.none,
-          left: BorderSide.none,
-          right: BorderSide.none,
-        ),
         boxShadow: const [
           BoxShadow(
               color: Pallete.darkMidColor, offset: Offset(5, 5), blurRadius: 25)
