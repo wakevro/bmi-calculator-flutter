@@ -1,5 +1,5 @@
 import 'package:bmicalculator/router/app_router.dart';
-import 'package:bmicalculator/views/home/home_view.dart';
+import 'package:bmicalculator/views/home_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
