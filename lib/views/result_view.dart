@@ -1,13 +1,18 @@
+import 'package:bmicalculator/constants/bmi_info.dart';
 import 'package:bmicalculator/constants/dimensions.dart';
 import 'package:bmicalculator/constants/pallete.dart';
 import 'package:bmicalculator/constants/text_styling.dart';
+import 'package:bmicalculator/utilities/generics/get_arguments.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class ResultView extends StatelessWidget {
   const ResultView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final resultMap = context.getArgument<Map>()!;
+
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Pallete.whiteColor,
@@ -47,6 +52,60 @@ class ResultView extends StatelessWidget {
                         blurRadius: 25)
                   ],
                 ),
+                child: Center(
+                  child: SfRadialGauge(
+                    axes: <RadialAxis>[
+                      RadialAxis(
+                        minimum: 8,
+                        maximum: 43,
+                        interval: 10,
+                        canScaleToFit: true,
+                        ranges: <GaugeRange>[
+                          GaugeRange(
+                            startValue: 0,
+                            endValue: 12,
+                            color: Pallete.purpleColor,
+                          ),
+                          GaugeRange(
+                            startValue: 12,
+                            endValue: 18.5,
+                            color: Pallete.accentColor,
+                          ),
+                          GaugeRange(
+                            startValue: 18.5,
+                            endValue: 25,
+                            color: Pallete.greenColor,
+                          ),
+                          GaugeRange(
+                            startValue: 25,
+                            endValue: 30,
+                            color: Pallete.yellowColor,
+                          ),
+                          GaugeRange(
+                              startValue: 30,
+                              endValue: 35,
+                              color: Pallete.lighOrangeColor),
+                          GaugeRange(
+                            startValue: 35,
+                            endValue: 40,
+                            color: Pallete.deepOrangeColor,
+                          ),
+                          GaugeRange(
+                            startValue: 40,
+                            endValue: 43,
+                            color: Pallete.redColor,
+                          ),
+                        ],
+                        pointers: <GaugePointer>[
+                          NeedlePointer(
+                            value: resultMap["bmi"],
+                            enableAnimation: true,
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 30,
@@ -57,7 +116,7 @@ class ResultView extends StatelessWidget {
               ),
               // BMI
               Text(
-                "20.4",
+                "${resultMap["bmi"]}",
                 style: TStyle.heading1.copyWith(
                   fontSize: 60,
                   fontWeight: FontWeight.bold,
@@ -73,13 +132,13 @@ class ResultView extends StatelessWidget {
                   height: 50,
                   padding: Dimension.itemPadding,
                   decoration: BoxDecoration(
-                    color: Pallete.greenColor,
+                    color: getBmiText(resultMap["bmi"])[1],
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      "Normal",
+                      getBmiText(resultMap["bmi"])[0],
                       style: TStyle.heading2.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 22,
@@ -95,28 +154,28 @@ class ResultView extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: "60.1 kg | ",
+                      text: "${resultMap["weightValue"]} lbs | ",
                       style: TStyle.bodyMedium.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Pallete.greyColor),
                     ),
                     TextSpan(
-                      text: "60.1 kg | ",
+                      text: "${resultMap["heightValue"]} cm | ",
                       style: TStyle.bodyMedium.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Pallete.greyColor),
                     ),
                     TextSpan(
-                      text: "60.1 kg | ",
+                      text: "${resultMap["gender"]} | ",
                       style: TStyle.bodyMedium.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Pallete.greyColor),
                     ),
                     TextSpan(
-                      text: "60.1 kg",
+                      text: "${resultMap["ageValue"]} years old",
                       style: TStyle.bodyMedium.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -136,8 +195,8 @@ class ResultView extends StatelessWidget {
                     color: Pallete.lightColor,
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: const Text(
-                      "Great news! Your BMI of 22.5 falls within the normal range, indicating a healthy body weight. Maintaining healthy habits like a balanced diet, exercise, and sleep can reduce the risk of chronic diseases. Remember, BMI is only one measure of health, so consult your doctor or a dietitian for personalized advice."),
+                  child: Text(
+                      bmiInfo(resultMap["bmi"])),
                 ),
               ),
             ],
@@ -145,5 +204,30 @@ class ResultView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List getBmiText(double bmi) {
+
+    if (bmi <= 18.5) {
+      return ["Underweight", Pallete.purpleColor];
+    } else if (bmi > 18.5 && bmi <= 24.9) {
+      return ["Normal", Pallete.greenColor];
+    } else if (bmi > 24.9 && bmi <= 29.9) {
+      return ["Overweight", Pallete.lighOrangeColor];
+    } else {
+      return ["Obese", Pallete.redColor];
+    }
+  }
+  
+  String bmiInfo(double bmi) {
+    if (bmi <= 18.5) {
+      return underweightInfoText;
+    } else if (bmi > 18.5 && bmi <= 24.9) {
+      return normalInfoText;
+    } else if (bmi > 24.9 && bmi <= 29.9) {
+      return overweightInfoText;
+    } else {
+      return obeseInfoText;
+    }
   }
 }
