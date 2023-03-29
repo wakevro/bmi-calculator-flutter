@@ -71,21 +71,9 @@ class _HomeViewState extends State<HomeView> {
                     const SizedBox(
                       height: 5,
                     ),
-                    Expanded(
-                      child: Text(
-                        "Body Mass Index, is a measurement that uses an individual's height and weight to estimate their level of body fat and potential health risks.",
-                        style: TStyle.bodyExtraSmall,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-
               // GENDER WIDGETS
               SizedBox(
                 width: screenSize.width - 60,
@@ -174,6 +162,8 @@ class _HomeViewState extends State<HomeView> {
                             onSubmittedValue: (int value) {
                               _weightRulerPickerController!.value = value;
                             },
+                            startValue: 0,
+                            endValue: 450,
                           ),
                           const SizedBox(
                             height: 20,
@@ -194,6 +184,8 @@ class _HomeViewState extends State<HomeView> {
                                 _ageRulerPickerController!.value = value;
                               });
                             },
+                            startValue: 1,
+                            endValue: 100,
                           ),
                         ],
                       ),
@@ -213,7 +205,7 @@ class _HomeViewState extends State<HomeView> {
                         });
                       },
                       title: "Height  ",
-                      subtitle: "(cm)",
+                      subtitle: "(cm/ft)",
                       onSubmittedValue: (int value) {
                         _heightRulerPickerController!.value = value;
                       },

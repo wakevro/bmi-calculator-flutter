@@ -1,5 +1,6 @@
 import 'package:bmicalculator/constants/pallete.dart';
 import 'package:bmicalculator/constants/text_styling.dart';
+import 'package:bmicalculator/utilities/generics/calculator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
@@ -77,7 +78,7 @@ class VerticalRulerWidget extends StatelessWidget {
               children: [
                 SizedBox(
                   height: ((screenSize.height - 80) * 0.4) - 40,
-                  width: (((screenSize.width - 90) / 2) - 20) / 2,
+                  width: (((screenSize.width - 90) / 2)) / 2,
                   child: Align(
                     alignment: Alignment.center,
                     child: Column(
@@ -106,14 +107,14 @@ class VerticalRulerWidget extends StatelessWidget {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: "${formatHeight(rulerValue)[0]}'",
+                                text: "${Calculator.formatHeight(rulerValue)[0]}'",
                                 style: TStyle.bodyMedium.copyWith(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Pallete.darkColor),
                               ),
                               TextSpan(
-                                text: "${formatHeight(rulerValue)[1]}'",
+                                text: "${Calculator.formatHeight(rulerValue)[1]}'",
                                 style: TStyle.bodyMedium.copyWith(
                                     fontSize: 16, color: Pallete.darkColor),
                               ),
@@ -125,7 +126,7 @@ class VerticalRulerWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  width: 5,
+                  width: 2,
                 ),
                 SizedBox(
                   height: ((screenSize.height - 80) * 0.4) - 38,
@@ -181,9 +182,4 @@ class VerticalRulerWidget extends StatelessWidget {
   }
 }
 
-List<int> formatHeight(int cm) {
-  int totalInches = (cm / 2.54).round();
-  int feet = (totalInches / 12).floor();
-  int inches = totalInches % 12;
-  return [feet, inches];
-}
+
