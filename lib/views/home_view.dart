@@ -25,9 +25,10 @@ class _HomeViewState extends State<HomeView> {
   RulerPickerController? _ageRulerPickerController;
   RulerPickerController? _heightRulerPickerController;
 
+  String gender = "Male";
   int weightValue = 150;
-  int ageValue = 40;
-  int heightValue = 150;
+  int ageValue = 25;
+  int heightValue = 175;
   @override
   void initState() {
     super.initState();
@@ -92,6 +93,7 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     InkWell(
                       onTap: () {
+                        gender = "Male";
                         if (maleColor != Pallete.darkColor) {
                           _switchColor();
                         }
@@ -119,6 +121,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                     InkWell(
                       onTap: () async {
+                        gender = "Female";
                         if (femaleColor != Pallete.darkColor) {
                           _switchColor();
                         }
@@ -225,7 +228,15 @@ class _HomeViewState extends State<HomeView> {
               // CALCULATE BUTTON
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(resultRoute);
+                  final double bmi =
+                      calculateBmi(ageValue, weightValue, heightValue, gender);
+                  Navigator.of(context).pushNamed(resultRoute, arguments: {
+                    "bmi": bmi,
+                    "weightValue": weightValue,
+                    "heightValue": heightValue,
+                    "gender": gender,
+                    "ageValue": ageValue
+                  });
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Pallete.darkColor),
@@ -260,5 +271,21 @@ class _HomeViewState extends State<HomeView> {
           ? Pallete.darkColor
           : Pallete.greyColor;
     });
+  }
+
+  double calculateBmi(
+      int ageValue, int weightValue, int heightValue, String gender) {
+    double height = heightValue / 100.0;
+    double weight = weightValue * 0.45359237;
+    double bmi = weight / (height * height);
+    if (gender.toLowerCase() == "female") {
+      bmi *= 0.9;
+    }
+    if (ageValue > 20) {
+      bmi += ((ageValue - 20) / 10.0) * 0.2;
+    }
+    bmi = double.parse(bmi.toStringAsFixed(1));
+
+    return bmi;
   }
 }
